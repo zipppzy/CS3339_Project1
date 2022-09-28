@@ -6,6 +6,7 @@ type Instruction struct {
 	rawInstruction string
 	lineValue      uint64
 	opcode         uint64
+	op             string
 }
 
 var InstructionList []Instruction
