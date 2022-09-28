@@ -17,7 +17,6 @@ func ReadBinary(filePath string) {
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-
 	for scanner.Scan() {
 		InstructionList = append(InstructionList, Instruction{rawInstruction: scanner.Text()})
 	}
