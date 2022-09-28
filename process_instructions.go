@@ -87,3 +87,28 @@ func opcodeTranslation(ins *Instruction) {
 		fmt.Println("Invalid opcode")
 	}
 }
+
+// \/\/ fill these out \/\/
+func processRType(ins *Instruction) {
+
+}
+
+func processIType(ins *Instruction) {
+
+}
+
+func processCBType(ins *Instruction) {
+
+}
+
+func processIMType(ins *Instruction) {
+
+}
+
+func processDType(ins *Instruction) {
+
+}
+
+func processBType(ins *Instruction) {
+
+}

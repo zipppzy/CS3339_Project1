@@ -9,6 +9,10 @@ type Instruction struct {
 	opcode          uint64
 	op              string
 	instructionType string
+	rm              uint8
+	shamt           uint8
+	rn              uint8
+	rd              uint8
 }
 
 var InstructionList []Instruction
