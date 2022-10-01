@@ -11,7 +11,7 @@ func ProcessInstructionList(list []Instruction) {
 		translateToInt(&list[i])
 		opcodeMasking(&list[i])
 		opcodeTranslation(&list[i])
-		switch list[i].op {
+		switch list[i].instructionType {
 		case "B":
 			processBType(&list[i])
 		case "I":
