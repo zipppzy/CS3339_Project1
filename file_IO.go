@@ -46,16 +46,21 @@ func WriteInstructions(filePath string, list []Instruction) {
 		case "IM":
 
 		case "D":
-
-		case "R":
 			//write binary with spaces
-			_, err := fmt.Fprintf(f, "%s %s %s %s %s\t", list[i].rawInstruction[0:11], list[i].rawInstruction[11:16], list[i].rawInstruction[16:22], list[i].rawInstruction[22:27], list[i].rawInstruction[27:32])
+			_, err := fmt.Fprintf(f, "%s %s %s %s %s\t", list[i].rawInstruction[0:11], list[i].rawInstruction[11:20], list[i].rawInstruction[20:22], list[i].rawInstruction[22:27], list[i].rawInstruction[27:32])
+			//write memLoc and opcode
+			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
+			//write operands
+			_, err = fmt.Fprintf(f, "R%d, [R%d, #%d]\n", list[i].rt, list[i].rn, list[i].address)
 			if err != nil {
 				log.Fatal(err)
 			}
+		case "R":
+			//write binary with spaces
+			_, err := fmt.Fprintf(f, "%s %s %s %s %s\t", list[i].rawInstruction[0:11], list[i].rawInstruction[11:16], list[i].rawInstruction[16:22], list[i].rawInstruction[22:27], list[i].rawInstruction[27:32])
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
-			//write instructions
+			//write operands
 			_, err = fmt.Fprintf(f, "R%d, R%d, ", list[i].rd, list[i].rn)
 			if list[i].op == "LSL" || list[i].op == "ASR" || list[i].op == "LSR" {
 				_, err = fmt.Fprintf(f, "#%d\n", list[i].shamt)
