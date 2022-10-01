@@ -14,7 +14,7 @@ func ProcessInstructionList(list []Instruction) {
 	}
 }
 
-// translates raw instruction to a unsigned 64 bit int
+// translates raw instruction to an unsigned 64 bit int
 func translateToInt(ins *Instruction) {
 	i, err := strconv.ParseUint(ins.rawInstruction, 2, 64)
 	if err == nil {
@@ -90,7 +90,14 @@ func opcodeTranslation(ins *Instruction) {
 
 // \/\/ fill these out \/\/
 func processRType(ins *Instruction) {
-
+	//mask for bits 12 - 16
+	ins.rm = uint8((ins.lineValue & 2031616) >> 16)
+	//mask for bits 17 - 22
+	ins.shamt = uint8((ins.lineValue & 64512) >> 10)
+	//mask for bits 23 - 27
+	ins.rn = uint8((ins.lineValue & 992) >> 5)
+	//mask for bit 28 - 32
+	ins.rd = uint8(ins.lineValue & 31)
 }
 
 func processIType(ins *Instruction) {

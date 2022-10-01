@@ -6,13 +6,15 @@ import (
 )
 
 type Instruction struct {
-	rawInstruction string
-	lineValue      uint64
-	opcode         uint64
-	rm             uint8
-	shamt          uint8
-	rn             uint8
-	rd             uint8
+	rawInstruction  string
+	lineValue       uint64
+	opcode          uint64
+	op              string
+	instructionType string
+	rm              uint8
+	shamt           uint8
+	rn              uint8
+	rd              uint8
 }
 
 var InstructionList []Instruction
