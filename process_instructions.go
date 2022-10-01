@@ -11,6 +11,20 @@ func ProcessInstructionList(list []Instruction) {
 		translateToInt(&list[i])
 		opcodeMasking(&list[i])
 		opcodeTranslation(&list[i])
+		switch list[i].op {
+		case "B":
+			processBType(&list[i])
+		case "I":
+			processIType(&list[i])
+		case "CB":
+			processCBType(&list[i])
+		case "IM":
+			processIMType(&list[i])
+		case "D":
+			processDType(&list[i])
+		case "R":
+			processRType(&list[i])
+		}
 	}
 }
 
@@ -33,6 +47,7 @@ func opcodeMasking(ins *Instruction) {
 func opcodeTranslation(ins *Instruction) {
 	if ins.opcode >= 160 && ins.opcode <= 191 {
 		ins.op = "B"
+		ins.instructionType = "B"
 	} else if ins.opcode == 1104 {
 		ins.op = "AND"
 		ins.instructionType = "R"
@@ -51,7 +66,7 @@ func opcodeTranslation(ins *Instruction) {
 	} else if ins.opcode >= 1448 && ins.opcode <= 1455 {
 		ins.op = "CBNZ"
 		ins.instructionType = "CB"
-	} else if ins.opcode == 1642 {
+	} else if ins.opcode == 1624 {
 		ins.op = "SUB"
 		ins.instructionType = "R"
 	} else if ins.opcode >= 1672 && ins.opcode <= 1673 {

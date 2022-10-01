@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"os"
 )
 
 type Instruction struct {
 	rawInstruction  string
 	lineValue       uint64
+	memLoc          uint64
 	opcode          uint64
 	op              string
 	instructionType string
@@ -36,8 +36,8 @@ func main() {
 	//Inputs Command-Line
 	ReadBinary(os.Args[0])
 
-	fmt.Println(InstructionList)
 	ProcessInstructionList(InstructionList)
-	fmt.Println(InstructionList)
+	//fmt.Println(InstructionList)
+	WriteInstructions("out.txt", InstructionList)
 
 }
