@@ -101,21 +101,43 @@ func processRType(ins *Instruction) {
 }
 
 func processIType(ins *Instruction) {
-
+	//mask for bits 11 - 22
+	ins.immediate = uint8((ins.lineValue & 8387584) >> 10)
+	//mask for bits 23 - 27
+	ins.rn = uint8((ins.lineValue & 992) >> 5)
+	//mask for bits 28 - 32
+	ins.rd = uint8(ins.lineValue & 31)
 }
 
 func processCBType(ins *Instruction) {
-
+	//mask for bits 9 - 27
+	ins.offset = uint8((ins.lineValue & 16777184) >> 5)
+	//mask for bits 28 - 32
+	ins.conditional = uint8(ins.lineValue & 31)
 }
 
 func processIMType(ins *Instruction) {
+	//mask for bits 10 - 12
+	ins.shiftCode = uint8((ins.lineValue & 6291456) >> 21)
+	//mask for bits 13 - 27
+	ins.field = uint8((ins.lineValue & 2097120) >> 5)
+	//mask for bits 28 - 32
+	ins.rd = uint8(ins.lineValue & 31)
 
 }
 
 func processDType(ins *Instruction) {
-
+	//mask for bits 12 - 20
+	ins.address = uint8((ins.lineValue & 2093056) >> 12)
+	//mask for bits 21 - 22
+	ins.op2 = uint8((ins.lineValue & 3072) >> 10)
+	//mask for bits 23 - 27
+	ins.rn = uint8((ins.lineValue & 992) >> 5)
+	//mask for bit 28 - 32
+	ins.rt = uint8(ins.lineValue & 31)
 }
 
 func processBType(ins *Instruction) {
-
+	//mask for bits 7 - 26
+	ins.offset = uint8(ins.lineValue & 67108863)
 }

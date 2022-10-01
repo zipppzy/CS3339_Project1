@@ -15,6 +15,14 @@ type Instruction struct {
 	shamt           uint8
 	rn              uint8
 	rd              uint8
+	rt              uint8
+	op2             uint8
+	address         uint8
+	immediate       uint8
+	offset          uint8
+	conditional     uint8
+	shiftCode       uint8
+	field           uint8
 }
 
 var InstructionList []Instruction
