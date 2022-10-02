@@ -170,15 +170,13 @@ func processBType(ins *Instruction) {
 
 // parses 2's complement binary to an integer
 // only works for 32 bit signed integers
-func parse2Complement(s string) int32 {
-	unsigned64, _ := strconv.ParseUint(s, 2, 64)
-	unsigned32 := uint32(unsigned64)
-	var out int32
-
+func parse2Complement(s string) int64 {
+	var out int64
+	var xorValue int64
+	out, _ = strconv.ParseInt(s, 2, 64)
+	xorValue = 1<<len(s) - 1
 	if s[0:1] == "1" {
-		out = int32(^unsigned32+1) * -1
-	} else {
-		out = int32(unsigned32)
+		out = (out ^ xorValue + 1) * -1
 	}
 	return out
 }

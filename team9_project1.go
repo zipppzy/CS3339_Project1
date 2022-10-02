@@ -23,7 +23,7 @@ type Instruction struct {
 	conditional     uint8
 	shiftCode       uint8
 	field           uint32
-	memValue        int32
+	memValue        int64
 }
 
 var InstructionList []Instruction
