@@ -98,6 +98,8 @@ func opcodeTranslation(ins *Instruction) {
 	} else if ins.opcode == 1872 {
 		ins.op = "EOR"
 		ins.instructionType = "R"
+	} else if ins.opcode == 2038 {
+		ins.breakIns = true
 	} else {
 		fmt.Println("Invalid opcode")
 	}
@@ -153,6 +155,6 @@ func processDType(ins *Instruction) {
 }
 
 func processBType(ins *Instruction) {
-	//mask for bits 7 - 26
+	//mask for bits 7 - 32
 	ins.offset = int32(^(uint32(ins.lineValue & 67108863)) + 1)
 }

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-// reads text file and makes Instructions and adds them to the InstructionList
+// ReadBinary reads text file and makes Instructions and adds them to the InstructionList
 func ReadBinary(filePath string) {
 	file, err := os.Open(filePath)
 
@@ -38,20 +38,55 @@ func WriteInstructions(filePath string, list []Instruction) {
 	for i := 1; i < len(list); i++ {
 		switch list[i].instructionType {
 		case "B":
-
+			//write binary with spaces
+			_, err := fmt.Fprintf(f, "%s %s\t", list[i].rawInstruction[0:6], list[i].rawInstruction[6:32])
+			//write memLoc and opcode
+			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
+			//write operands
+			_, err = fmt.Fprintf(f, "#%d", list[i].offset)
+			if err != nil {
+				log.Fatal(err)
+			}
 		case "I":
+			//write binary with spaces
+			_, err := fmt.Fprintf(f, "%s %s %s %s\t", list[i].rawInstruction[0:10], list[i].rawInstruction[10:22], list[i].rawInstruction[22:27], list[i].rawInstruction[27:32])
+			//write memLoc and opcode
+			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
+			//write operands
+			_, err = fmt.Fprintf(f, "R%d, R%d,#%d, ", list[i].rd, list[i].rn, list[i].immediate)
+			if err != nil {
+				log.Fatal(err)
+			}
 
 		case "CB":
-
+			//write binary with spaces
+			_, err := fmt.Fprintf(f, "%s %s %s\t", list[i].rawInstruction[0:8], list[i].rawInstruction[8:27], list[i].rawInstruction[27:32])
+			//write memLoc and opcode
+			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
+			//write operands
+			_, err = fmt.Fprintf(f, "R%d,#%d, ", list[i].conditional, list[i].offset)
+			if err != nil {
+				log.Fatal(err)
+			}
+			// I am not sure about IM
 		case "IM":
-
+			//write binary with spaces
+			_, err := fmt.Fprintf(f, "%s %s %s %s\t", list[i].rawInstruction[0:9], list[i].rawInstruction[9:12], list[i].rawInstruction[12:27], list[i].rawInstruction[27:32])
+			//write memLoc and opcode
+			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
+			//write operands
+			_, err = fmt.Fprintf(f, "R%d,&d, #%d,LSL %d,  ", list[i].rd, list[i].field, list[i].shiftCode)
+			if err != nil {
+				log.Fatal(err)
+			}
+			// I am not sure about D too
 		case "D":
 			//write binary with spaces
 			_, err := fmt.Fprintf(f, "%s %s %s %s %s\t", list[i].rawInstruction[0:11], list[i].rawInstruction[11:20], list[i].rawInstruction[20:22], list[i].rawInstruction[22:27], list[i].rawInstruction[27:32])
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "R%d, [R%d, #%d]\n", list[i].rt, list[i].rn, list[i].address)
+			_, err = fmt.Fprintf(f, "R%d, [R%d,#%d] ", list[i].rt, list[i].rn, list[i].address)
 			if err != nil {
 				log.Fatal(err)
 			}
