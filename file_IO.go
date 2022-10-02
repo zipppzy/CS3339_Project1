@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 )
 
 // ReadBinary reads text file and makes Instructions and adds them to the InstructionList
@@ -107,13 +106,12 @@ func WriteInstructions(filePath string, list []Instruction) {
 				log.Fatal(err)
 			}
 		case "BREAK":
-			_, err := fmt.Fprintf(f, "BREAK")
+			_, err := fmt.Fprintf(f, "BREAK\n")
 			if err != nil {
 				log.Fatal(err)
 			}
 		case "MEM":
-			value, _ := strconv.ParseInt(list[i].rawInstruction, 2, 32)
-			_, err := fmt.Fprintf(f, "%s\t%d\t%d", list[i].rawInstruction, list[i].memLoc, value)
+			_, err := fmt.Fprintf(f, "%s\t%d\t%d\n", list[i].rawInstruction, list[i].memLoc, list[i].memValue)
 			if err != nil {
 				log.Fatal(err)
 			}

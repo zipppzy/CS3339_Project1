@@ -1,7 +1,7 @@
 package main
 
 import (
-	"os"
+	"flag"
 )
 
 type Instruction struct {
@@ -23,21 +23,21 @@ type Instruction struct {
 	conditional     uint8
 	shiftCode       uint8
 	field           uint32
+	memValue        int32
 }
 
 var InstructionList []Instruction
 
 func main() {
-	//Checks if addtest1_bin.txt exists
-	if _, err := os.Stat("addtest1_bin.txt"); err == nil {
-		os.Args[0] = "addtest1_bin.txt"
-	}
+	inputFilePathPtr := flag.String("i", "addtest1_bin.txt", "input file path")
+	outputFilePathPtr := flag.String("o", "out.txt", "output file path")
 
+	flag.Parse()
 	//Inputs Command-Line
-	ReadBinary(os.Args[0])
+	ReadBinary(*inputFilePathPtr)
 
 	ProcessInstructionList(InstructionList)
 	//fmt.Println(InstructionList)
-	WriteInstructions("out.txt", InstructionList)
+	WriteInstructions(*outputFilePathPtr, InstructionList)
 
 }

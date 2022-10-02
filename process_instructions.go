@@ -31,6 +31,7 @@ func ProcessInstructionList(list []Instruction) {
 			}
 		} else {
 			list[i].instructionType = "MEM"
+			list[i].memValue = parse2Complement(list[i].rawInstruction)
 		}
 	}
 }
@@ -165,4 +166,19 @@ func processDType(ins *Instruction) {
 func processBType(ins *Instruction) {
 	//mask for bits 7 - 32
 	ins.offset = int32(^(uint32(ins.lineValue & 67108863)) + 1)
+}
+
+// parses 2's complement binary to an integer
+// only works for 32 bit signed integers
+func parse2Complement(s string) int32 {
+	unsigned64, _ := strconv.ParseUint(s, 2, 64)
+	unsigned32 := uint32(unsigned64)
+	var out int32
+
+	if s[0:1] == "1" {
+		out = int32(^unsigned32+1) * -1
+	} else {
+		out = int32(unsigned32)
+	}
+	return out
 }
