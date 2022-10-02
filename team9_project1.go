@@ -23,7 +23,6 @@ type Instruction struct {
 	conditional     uint8
 	shiftCode       uint8
 	field           uint32
-	breakIns        bool
 }
 
 var InstructionList []Instruction

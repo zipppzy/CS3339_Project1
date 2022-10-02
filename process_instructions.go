@@ -6,24 +6,31 @@ import (
 )
 
 func ProcessInstructionList(list []Instruction) {
+	breakHit := false
 	for i := 0; i < len(list); i++ {
-		//use processing functions on instructions here
-		translateToInt(&list[i])
-		opcodeMasking(&list[i])
-		opcodeTranslation(&list[i])
-		switch list[i].instructionType {
-		case "B":
-			processBType(&list[i])
-		case "I":
-			processIType(&list[i])
-		case "CB":
-			processCBType(&list[i])
-		case "IM":
-			processIMType(&list[i])
-		case "D":
-			processDType(&list[i])
-		case "R":
-			processRType(&list[i])
+		if !breakHit {
+			//use processing functions on instructions here
+			translateToInt(&list[i])
+			opcodeMasking(&list[i])
+			opcodeTranslation(&list[i])
+			switch list[i].instructionType {
+			case "B":
+				processBType(&list[i])
+			case "I":
+				processIType(&list[i])
+			case "CB":
+				processCBType(&list[i])
+			case "IM":
+				processIMType(&list[i])
+			case "D":
+				processDType(&list[i])
+			case "R":
+				processRType(&list[i])
+			case "BREAK":
+				breakHit = true
+			}
+		} else {
+			list[i].instructionType = "MEM"
 		}
 	}
 }
@@ -99,7 +106,8 @@ func opcodeTranslation(ins *Instruction) {
 		ins.op = "EOR"
 		ins.instructionType = "R"
 	} else if ins.opcode == 2038 {
-		ins.breakIns = true
+		ins.op = "BREAK"
+		ins.instructionType = "BREAK"
 	} else {
 		fmt.Println("Invalid opcode")
 	}
