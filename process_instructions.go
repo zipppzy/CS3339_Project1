@@ -33,7 +33,8 @@ func ProcessInstructionList(list []Instruction) {
 			list[i].instructionType = "MEM"
 			var value int64
 			value, _ = strconv.ParseInt(list[i].rawInstruction, 2, 32)
-			list[i].memValue = parse2Complement(value, 32)
+			//list[i].memValue = parse2Complement(value, 32)
+			list[i].memValue = int32(parse2Complement(value, 32))
 		}
 	}
 }
