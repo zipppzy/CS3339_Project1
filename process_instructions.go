@@ -105,6 +105,7 @@ func opcodeTranslation(ins *Instruction) {
 		ins.instructionType = "R"
 	} else if ins.opcode == 0 {
 		ins.op = "NOP"
+		ins.instructionType = "NOP"
 	} else if ins.opcode == 1872 {
 		ins.op = "EOR"
 		ins.instructionType = "R"
