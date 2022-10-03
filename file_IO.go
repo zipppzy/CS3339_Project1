@@ -43,7 +43,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "#%d", list[i].offset)
+			_, err = fmt.Fprintf(f, "#%d\n", list[i].offset)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -106,12 +106,18 @@ func WriteInstructions(filePath string, list []Instruction) {
 				log.Fatal(err)
 			}
 		case "BREAK":
-			_, err := fmt.Fprintf(f, "BREAK\n")
+			_, err := fmt.Fprintf(f, "%s\t%d\tBREAK\n", list[i].rawInstruction, list[i].memLoc)
 			if err != nil {
 				log.Fatal(err)
 			}
 		case "MEM":
 			_, err := fmt.Fprintf(f, "%s\t%d\t%d\n", list[i].rawInstruction, list[i].memLoc, list[i].memValue)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+		case "NOP":
+			_, err := fmt.Fprintf(f, "%s\t%d\t%s\n", list[i].rawInstruction, list[i].memLoc, list[i].opcode)
 			if err != nil {
 				log.Fatal(err)
 			}
