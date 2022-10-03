@@ -31,10 +31,9 @@ func ProcessInstructionList(list []Instruction) {
 			}
 		} else {
 			list[i].instructionType = "MEM"
-			var value int64
-			value, _ = strconv.ParseInt(list[i].rawInstruction, 2, 32)
-			//list[i].memValue = parse2Complement(value, 32)
-			list[i].memValue = int32(parse2Complement(value, 32))
+			var value uint64
+			value, _ = strconv.ParseUint(list[i].rawInstruction, 2, 32)
+			list[i].memValue = parse2Complement(value, 32)
 		}
 	}
 }
@@ -134,7 +133,7 @@ func processRType(ins *Instruction) {
 
 func processIType(ins *Instruction) {
 	//mask for bits 11 - 22
-	ins.immediate = int16(parse2Complement(int64(ins.lineValue&67108863), 12))
+	ins.immediate = int16(parse2Complement(ins.lineValue&67108863, 12))
 	//mask for bits 23 - 27
 	ins.rn = uint8((ins.lineValue & 992) >> 5)
 	//mask for bits 28 - 32
@@ -143,7 +142,7 @@ func processIType(ins *Instruction) {
 
 func processCBType(ins *Instruction) {
 	//mask for bits 9 - 27
-	ins.offset = int32(parse2Complement(int64(ins.lineValue&67108863), 19))
+	ins.offset = int32(parse2Complement(ins.lineValue&67108863, 19))
 	//mask for bits 28 - 32
 	ins.conditional = uint8(ins.lineValue & 31)
 }
@@ -171,16 +170,17 @@ func processDType(ins *Instruction) {
 
 func processBType(ins *Instruction) {
 	//mask for bits 7 - 32
-	ins.offset = int32(parse2Complement(int64(ins.lineValue&67108863), 26))
+	ins.offset = int32(parse2Complement(ins.lineValue&67108863, 26))
 }
 
 // parses 2's complement binary to an integer
-func parse2Complement(i int64, binaryLength uint) int64 {
+func parse2Complement(i uint64, binaryLength uint) int64 {
 	var out int64
 	var xorValue int64
+	out = int64(i)
 	xorValue = (1 << binaryLength) - 1
 	if (i >> (binaryLength - 1)) != 0 {
-		out = (out ^ xorValue + 1) * -1
+		out = ((out ^ xorValue) + 1) * -1
 	}
 	return out
 }
