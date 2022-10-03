@@ -35,7 +35,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 
 	defer f.Close()
 
-	for i := 1; i < len(list); i++ {
+	for i := 0; i < len(list); i++ {
 		switch list[i].instructionType {
 		case "B":
 			//write binary with spaces
@@ -53,7 +53,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "R%d, R%d,#%d, ", list[i].rd, list[i].rn, list[i].immediate)
+			_, err = fmt.Fprintf(f, "R%d, R%d,#%d\n", list[i].rd, list[i].rn, list[i].immediate)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -64,7 +64,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "R%d,#%d, ", list[i].conditional, list[i].offset)
+			_, err = fmt.Fprintf(f, "R%d,#%d\n", list[i].conditional, list[i].offset)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -75,7 +75,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "R%d,&d, #%d,LSL %d,  ", list[i].rd, list[i].field, list[i].shiftCode)
+			_, err = fmt.Fprintf(f, "R%d,&d, #%d,LSL %d\n", list[i].rd, list[i].field, list[i].shiftCode)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -86,7 +86,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "R%d, [R%d,#%d] ", list[i].rt, list[i].rn, list[i].address)
+			_, err = fmt.Fprintf(f, "R%d, [R%d,#%d]\n", list[i].rt, list[i].rn, list[i].address)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -117,7 +117,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			}
 
 		case "NOP":
-			_, err := fmt.Fprintf(f, "%s\t%d\t%s\n", list[i].rawInstruction, list[i].memLoc, list[i].opcode)
+			_, err := fmt.Fprintf(f, "%s\t%d\t%s\n", list[i].rawInstruction, list[i].memLoc, list[i].op)
 			if err != nil {
 				log.Fatal(err)
 			}

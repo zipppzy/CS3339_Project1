@@ -133,7 +133,7 @@ func processRType(ins *Instruction) {
 
 func processIType(ins *Instruction) {
 	//mask for bits 11 - 22
-	ins.immediate = int16(parse2Complement(ins.lineValue&67108863, 12))
+	ins.immediate = int16(parse2Complement((ins.lineValue&4193280)>>10, 12))
 	//mask for bits 23 - 27
 	ins.rn = uint8((ins.lineValue & 992) >> 5)
 	//mask for bits 28 - 32
@@ -142,7 +142,7 @@ func processIType(ins *Instruction) {
 
 func processCBType(ins *Instruction) {
 	//mask for bits 9 - 27
-	ins.offset = int32(parse2Complement(ins.lineValue&67108863, 19))
+	ins.offset = int32(parse2Complement((ins.lineValue&16777184)>>5, 19))
 	//mask for bits 28 - 32
 	ins.conditional = uint8(ins.lineValue & 31)
 }
