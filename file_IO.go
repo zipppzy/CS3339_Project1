@@ -74,7 +74,7 @@ func WriteInstructions(filePath string, list []Instruction) {
 			//write memLoc and opcode
 			_, err = fmt.Fprintf(f, "%d\t%s\t", list[i].memLoc, list[i].op)
 			//write operands
-			_, err = fmt.Fprintf(f, "R%d, &d, #%d, LSL %d\n", list[i].rd, list[i].field, list[i].shiftCode)
+			_, err = fmt.Fprintf(f, "R%d, %d, LSL %d\n", list[i].rd, list[i].field, list[i].shiftCode)
 			if err != nil {
 				log.Fatal(err)
 			}
